@@ -62,12 +62,7 @@ client.get("id", async (err, idUsuario) => {
       const getPropousal = await Propousals.findOne({
         where: { idUser: idUsuario },
       });
-
-      if (getPropousal === null) {
-        return res.status(404).json({ message: "Propousal not found" });
-      }else {
         res.status(200).json({ message:  getPropousal });
-      }
     } catch (err) {
       res.status(500).json({ message: "get propousal failed" });
     }})

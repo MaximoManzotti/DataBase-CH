@@ -37,7 +37,7 @@ router.post("/add", checkAuth, (req, res) => {
 res.status(200).json({message: newComment})
 } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Error while creating propousal;" });
+        res.status(500).json({ message: "Error while creating comment;" });
       }
     }
 })

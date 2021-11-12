@@ -3,9 +3,27 @@ const app = express();
 const db = require("./db/database");
 const dotev = require("dotenv");
 require("./middleware/Redis");
+const cors = require('cors')
 dotev.config();
 
+
+
+
+app.use(cors());
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
 const PORT = process.env.PORT || 3000;
+
+app.use('/api', createProxyMiddleware({ 
+    target: `http://localhost:${process.env.PORT}/`, //original url
+    changeOrigin: true, 
+    //secure: false,
+    onProxyRes: function (proxyRes, req, res) {
+       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+    }
+}));
+
+
 
 app.use(express.json());
 app.use(

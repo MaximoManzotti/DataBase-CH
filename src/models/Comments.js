@@ -17,7 +17,6 @@ const Comments = db.define("Comments",
     },
   },
   {
-    freezeTableName: true,
     timestamps: false,
   }
 );

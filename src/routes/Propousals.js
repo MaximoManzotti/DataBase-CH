@@ -55,7 +55,7 @@ router.post("/add", checkBusinessMan, checkAuth, (req, res) => {
   });
 });
 
-router.get("/myPropousal", checkAuth, async (req, res) => {
+router.get("/mypropousal", checkAuth, async (req, res) => {
 
 client.get("id", async (err, idUsuario) => {
     try {

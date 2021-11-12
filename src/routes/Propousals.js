@@ -55,31 +55,48 @@ router.post("/add", checkBusinessMan, checkAuth, (req, res) => {
   });
 });
 
+router.get("/:id", checkAuth, async (req, res) => {
+  const data = parseInt(req.params.id);
+    try {
+      const getPropousal = await Propousals.findOne({
+        where: { id: data },
+      });
+
+      if (getPropousal === null) {
+        return res.status(404).json({ message: "Propousal not found" });
+      }else {
+        res.status(200).json({ message:  getPropousal });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "get propousal failed" });
+    }
+});
+
 router.patch("/suppress/:id", checkAuth, async (req, res) => {
   const data = parseInt(req.params.id);
   client.get("id", async (err, idUsuario) => {
     try {
-      const removedPropousal = await Propousals.findOne({
+      const removedComment = await Propousals.findOne({
         where: { id: data },
       });
       let user = await User.findOne({ where: { id: idUsuario } });
 
-      if (removedPropousal === null) {
-        return res.status(404).json({ message: "Propousal not found" });
+      if (removedComment === null) {
+        return res.status(404).json({ message: "Comment not found" });
       } else if (idUsuario != user.id) {
         res.status(401).json({ message: " Unauthorized " });
       } else {
-        await User.update(
-          { openPropousal: false },
-          { where: { id: idUsuario } }
+        await Comments.destroy(
+          { where: { id: removedComment } }
         );
         await Propousals.update({ visible: false }, { where: { id: data } });
-        res.status(200).json({ message: "Propousal Deleted!" });
+        res.status(200).json({ message: "Comment Deleted!" });
       }
     } catch (err) {
       res.status(500).json({ message: "Delete failed" });
     }
   });
 });
+
 
 module.exports = router;

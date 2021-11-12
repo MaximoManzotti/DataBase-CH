@@ -14,14 +14,13 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const PORT = process.env.PORT || 3000;
 
-app.use('/api', createProxyMiddleware({ 
-    target: `http://localhost:${process.env.PORT}/`, //original url
+ createProxyMiddleware({ 
+    target: `http://localhost:${process.env.PORT}/`,
     changeOrigin: true, 
-    //secure: false,
     onProxyRes: function (proxyRes, req, res) {
        proxyRes.headers['Access-Control-Allow-Origin'] = '*';
     }
-}));
+});
 
 
 

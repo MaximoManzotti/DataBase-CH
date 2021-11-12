@@ -55,11 +55,12 @@ router.post("/add", checkBusinessMan, checkAuth, (req, res) => {
   });
 });
 
-router.get("/:id", checkAuth, async (req, res) => {
-  const data = parseInt(req.params.id);
+router.get("/myPropousal", checkAuth, async (req, res) => {
+
+client.get("id", async (err, idUsuario) => {
     try {
       const getPropousal = await Propousals.findOne({
-        where: { id: data },
+        where: { idUser: idUsuario },
       });
 
       if (getPropousal === null) {
@@ -69,7 +70,7 @@ router.get("/:id", checkAuth, async (req, res) => {
       }
     } catch (err) {
       res.status(500).json({ message: "get propousal failed" });
-    }
+    }})
 });
 
 router.patch("/suppress/:id", checkAuth, async (req, res) => {
